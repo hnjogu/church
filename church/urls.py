@@ -27,6 +27,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import url
 import os.path
+#from django.contrib import tithe
+
 
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
@@ -43,6 +45,9 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^search/', include(wagtailsearch_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+    #url(r'^church/', include('church.urls')),
+    #url(r'^tithe/', include(wagtaildocs_urls)),
+    #url(r'', include('tithe.urls')),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism

@@ -13,14 +13,17 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r2^-7fnwa1q(g6ud=+)0f1$4lu7i9v)0ir^$f*9^xg8zsq-r(w'
+#SECRET_KEY = 'r2^-7fnwa1q(g6ud=+)0f1$4lu7i9v)0ir^$f*9^xg8zsq-r(w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -93,6 +96,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'church.wsgi.application'
+WAGTAIL_AUTO_UPDATE_PREVIEW = False
+WAGTAIL_ENABLE_UPDATE_CHECK = True
+WAGTAIL_USER_EDIT_FORM = 'users.forms.CustomUserEditForm'
+WAGTAIL_USER_CREATION_FORM = 'users.forms.CustomUserCreationForm'
+#WAGTAIL_USER_CUSTOM_FIELDS = ['country']
 
 
 # Database
@@ -142,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -153,5 +161,100 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, 'static'),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+ADMINS = [
+    # ('Your Name', 'your_email@example.com'),
+]
+MANAGERS = ADMINS
+
+# Default to dummy email backend. Configure dev/production/local backend
+# as per https://docs.djangoproject.com/en/dev/topics/email/#email-backends
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# Hosts/domain names that are valid for this site; required if DEBUG is False
+ALLOWED_HOSTS = []
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'r2^-7fnwa1q(g6ud=+)0f1$4lu7i9v)0ir^$f*9^xg8zsq-r(w'
+#SECRET_KEY = 'change-me'
+
+EMAIL_SUBJECT_PREFIX = '[Wagtail] '
+
+INTERNAL_IPS = ('127.0.0.1', '10.0.2.2')
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+
+# WAGTAIL SETTINGS
+
+# This is the human-readable name of your Wagtail install
+# which welcomes users upon login to the Wagtail admin.
+WAGTAIL_SITE_NAME = 'Church'
+
+# Override the search results template for wagtailsearch
+# WAGTAILSEARCH_RESULTS_TEMPLATE = 'myapp/search_results.html'
+# WAGTAILSEARCH_RESULTS_TEMPLATE_AJAX = 'myapp/includes/search_listing.html'
+
+# Replace the search backend
+#WAGTAILSEARCH_BACKENDS = {
+#  'default': {
+#    'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch2',
+#    'INDEX': 'myapp'
+#  }
+#}
+
+# Wagtail email notifications from address
+# WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'wagtail@myhost.io'
+
+# Wagtail email notification format
+# WAGTAILADMIN_NOTIFICATION_USE_HTML = True
+
+# If you want to use Embedly for embeds, supply a key
+# (this key doesn't work, get your own!)
+# WAGTAILEMBEDS_EMBEDLY_KEY = '253e433d59dc4d2xa266e9e0de0cb830'
+
+# Reverse the default case-sensitive handling of tags
+TAGGIT_CASE_INSENSITIVE = True
